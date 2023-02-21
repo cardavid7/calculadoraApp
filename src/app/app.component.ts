@@ -32,10 +32,14 @@ export class AppComponent {
   addToResult(input: string): String {
 
     if (input == '+' || input == '-' || input == '*' || input == '/') {
-      this.valor1 = this.result;
-      this.valor2 = '';
-      this.result = '';
-      this.operador = input;
+      if (this.operador.length > 0) {
+        this.operador = input;
+      } else {
+        this.valor1 = this.result;
+        this.valor2 = '';
+        this.result = '';
+        this.operador = input;
+      }
     } else {
       this.result += input;
     }
@@ -53,25 +57,18 @@ export class AppComponent {
     }
 
     if (this.operador == '+') {
-
       this.result = this.suma(this.valor1, this.valor2).toString();
-      this.valor1 = this.result;
-
     } else if (this.operador == '-') {
-
       this.result = this.resta(this.valor1, this.valor2).toString();
-      this.valor1 = this.result;
-
     } else if (this.operador == '*') {
-
       this.result = this.multiplicacion(this.valor1, this.valor2).toString();
-      this.valor1 = this.result;
-
     } else if (this.operador == '/') {
-
       this.result = this.division(this.valor1, this.valor2).toString();
-      this.valor1 = this.result;
     }
+
+    this.valor1 = this.result;
+    this.operador = '';
+
   }
 
   suma(valor1: string, valor2: string): number {
