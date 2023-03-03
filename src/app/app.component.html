@@ -8,23 +8,23 @@
       <input type="text" id="result" value="0" disabled [(ngModel)]="result">
     </div>
     <div class="buttons">
-      <button class="btnclear" (click)="borradoParcial()">CE</button>
       <button class="btnclear" (click)="borradoTotal()">C</button>
+      <button class="btnclear" (click)="borradoParcial()">CE</button>
       <button class="btnclear" (click)="back()"><i class="fa-sharp fa-solid fa-delete-left"></i></button>
 
-      <button class="btnoperator" (click)="addToResult('/')"><i class="fa-solid fa-divide"></i></button>
+      <button class="btnoperator" (click)="operator('/')"><i class="fa-solid fa-divide"></i></button>
       <button class="btnnumber" (click)="addToResult('7')">7</button>
       <button class="btnnumber" (click)="addToResult('8')">8</button>
       <button class="btnnumber" (click)="addToResult('9')">9</button>
-      <button class="btnoperator" (click)="addToResult('*')"><i class="fa-solid fa-xmark"></i></button>
+      <button class="btnoperator" (click)="operator('*')"><i class="fa-solid fa-xmark"></i></button>
       <button class="btnnumber" (click)="addToResult('4')">4</button>
       <button class="btnnumber" (click)="addToResult('5')">5</button>
       <button class="btnnumber" (click)="addToResult('6')">6</button>
-      <button class="btnoperator" (click)="addToResult('-')"><i class="fa-solid fa-minus"></i></button>
+      <button class="btnoperator" (click)="operator('-')"><i class="fa-solid fa-minus"></i></button>
       <button class="btnnumber" (click)="addToResult('1')">1</button>
       <button class="btnnumber" (click)="addToResult('2')">2</button>
       <button class="btnnumber" (click)="addToResult('3')">3</button>
-      <button class="btnoperator" (click)="addToResult('+')"><i class="fa-solid fa-plus"></i></button>
+      <button class="btnoperator" (click)="operator('+')"><i class="fa-solid fa-plus"></i></button>
       <button class="btnnumber" (click)="addToResult('0')">0</button>
       <button class="btnnumber" (click)="addToResult('.')">.</button>
       <button class="btnequals" (click)="calculate()"><i class="fa-solid fa-equals"></i></button>

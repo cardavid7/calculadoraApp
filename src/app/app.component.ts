@@ -6,19 +6,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'CalculadoraApp';
-  year = new Date().getFullYear();
 
+  title = 'CalculadoraApp';
   result: string = '';
-  valor1: string = '';
-  valor2: string = '';
+  value: number = 0;
   operador: string = '';
+  resetResult: boolean = false;
 
   borradoTotal() {
     this.result = '';
-    this.valor1 = '';
-    this.valor2 = '';
+    this.value = 0;
     this.operador = '';
+    this.resetResult = false;
   }
 
   borradoParcial() {
@@ -29,58 +28,99 @@ export class AppComponent {
     this.result = this.result.substring(0, this.result.length - 1);
   }
 
-  addToResult(input: string): String {
+  addToResult(input: string): string {
 
-    if (input == '+' || input == '-' || input == '*' || input == '/') {
-      if (this.operador.length > 0) {
-        this.operador = input;
-      } else {
-        this.valor1 = this.result;
-        this.valor2 = '';
-        this.result = '';
-        this.operador = input;
+    if (this.resetResult == true) {
+
+      this.result = '';
+      this.resetResult = false;
+    }
+
+    this.result = this.armaNumero(input);
+    return this.result;
+  }
+
+  operator(input: string) {
+
+    if (this.resetResult == true) {
+
+      this.operador = input;
+      return;
+    }
+
+    if ((this.result.length == 0 || this.result == '+' || this.result == '-') && (input == '+' || input == '-')) {
+
+      this.result = input;
+      return;
+    }
+
+    if ((this.result.length == 0 || this.result == '+' || this.result == '-') && (input == '*' || input == '/')) {
+
+      return;
+    }
+
+    if (this.value == 0) {
+
+      this.value = parseFloat(this.result);
+      this.resetResult = true;
+      this.operador = input;
+
+    } else if (this.result.length > 0) {
+
+      this.result = this.realizaOperacion(this.value, parseFloat(this.result), this.operador);
+      this.value = parseFloat(this.result);
+      this.resetResult = true;
+      this.operador = input;
+    }
+  }
+
+  calculate() {
+
+    if ((this.operador.includes('+') || this.operador.includes('-') || this.operador.includes('*') || this.operador.includes('/')) &&
+      this.value != 0 && parseFloat(this.result) != 0) {
+      this.result = this.realizaOperacion(this.value, parseFloat(this.result), this.operador);
+      this.value = parseFloat(this.result);
+      this.resetResult = true;
+    }
+  }
+
+  armaNumero(input: string) {
+
+    if (input == '.') {
+      if (!this.result.includes('.')) {
+        if (this.result.length == 0) {
+
+          this.result = "0";
+        }
+        this.result += input;
+        return this.result;
       }
     } else {
+      if (this.result.startsWith('0.') && input == '0') {
+        this.result += input;
+        return this.result;
+
+      } else if (this.result.startsWith('0') && input == '0') {
+        return this.result;
+      }
       this.result += input;
     }
     return this.result;
   }
 
-  calculate() {
+  realizaOperacion(valor1: number, valor2: number, operador: string): string {
+    let value: number = 0;
 
-    if (this.result.length == 0) {
-      this.valor2 = this.valor1;
+    if (operador == '+') {
+      value = valor1 + valor2;
+    } else if (operador == '-') {
+      value = valor1 - valor2;
+    } else if (operador == '*') {
+      value = valor1 * valor2;
+    } else if (operador == '/') {
+      value = valor1 / valor2;
     }
-
-    if (this.valor2.length == 0) {
-      this.valor2 = this.result;
-    }
-
-    if (this.operador == '+') {
-      this.result = this.suma(this.valor1, this.valor2).toString();
-    } else if (this.operador == '-') {
-      this.result = this.resta(this.valor1, this.valor2).toString();
-    } else if (this.operador == '*') {
-      this.result = this.multiplicacion(this.valor1, this.valor2).toString();
-    } else if (this.operador == '/') {
-      this.result = this.division(this.valor1, this.valor2).toString();
-    }
-
-    this.valor1 = this.result;
-    this.operador = '';
-
+    return value.toString();
   }
 
-  suma(valor1: string, valor2: string): number {
-    return parseFloat(valor1) + parseFloat(valor2);
-  }
-  resta(valor1: string, valor2: string): number {
-    return parseFloat(valor1) - parseFloat(valor2);
-  }
-  multiplicacion(valor1: string, valor2: string): number {
-    return parseFloat(valor1) * parseFloat(valor2);
-  }
-  division(valor1: string, valor2: string): number {
-    return parseFloat(valor1) / parseFloat(valor2);
-  }
 }
