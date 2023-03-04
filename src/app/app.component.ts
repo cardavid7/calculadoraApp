@@ -30,32 +30,25 @@ export class AppComponent {
 
   addToResult(input: string): string {
 
-    if (this.resetResult == true) {
-
+    if (this.resetResult) {
       this.result = '';
       this.resetResult = false;
     }
-
     this.result = this.armaNumero(input);
     return this.result;
   }
 
   operator(input: string) {
 
-    if (this.resetResult == true) {
-
+    if (this.resetResult) {
       this.operador = input;
       return;
     }
-
     if ((this.result.length == 0 || this.result == '+' || this.result == '-') && (input == '+' || input == '-')) {
-
       this.result = input;
       return;
     }
-
     if ((this.result.length == 0 || this.result == '+' || this.result == '-') && (input == '*' || input == '/')) {
-
       return;
     }
 
@@ -87,25 +80,25 @@ export class AppComponent {
   armaNumero(input: string) {
 
     if (input == '.') {
+      if (this.result.includes('.')) {
+        return this.result;
+      }
       if (!this.result.includes('.')) {
         if (this.result.length == 0) {
-
-          this.result = "0";
+          return this.result = "0.";
         }
-        this.result += input;
-        return this.result;
+        return this.result += input;
       }
     } else {
       if (this.result.startsWith('0.') && input == '0') {
-        this.result += input;
-        return this.result;
+        return this.result += input;
 
       } else if (this.result.startsWith('0') && input == '0') {
         return this.result;
       }
-      this.result += input;
     }
-    return this.result;
+    this.result += input
+    return parseFloat(this.result).toString();
   }
 
   realizaOperacion(valor1: number, valor2: number, operador: string): string {
